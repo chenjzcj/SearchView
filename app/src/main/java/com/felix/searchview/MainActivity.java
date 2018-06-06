@@ -12,16 +12,15 @@ import android.widget.ListView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     // 用于显示查询结果或者热门搜索词
     private ListView listView;
     private SearchView searchView;
-    // 从服务器获取的热门搜索词
-    private Object[] names;
     // 模拟数据
-    private ArrayList<String> mAllList = new ArrayList<>();
+    private List<String> mAllList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,27 +28,26 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
         initActionbar();
-        names = loadData();
-        listView = findViewById(R.id.list);
-        listView.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_expandable_list_item_1, names));
+        Object[] names = loadData();
 
+        listView = findViewById(R.id.list);
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, names));
         listView.setTextFilterEnabled(true);
+
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(false);
         // SearchView去掉（修改）搜索框的背景 修改光标
         setSearchViewBackground(searchView);
-
     }
 
     private Object[] loadData() {
-        mAllList.add("aa");
-        mAllList.add("ddfa");
-        mAllList.add("qw");
-        mAllList.add("sd");
-        mAllList.add("fd");
-        mAllList.add("cf");
-        mAllList.add("re");
+        mAllList.add("aaask");
+        mAllList.add("ddfar");
+        mAllList.add("qwdff");
+        mAllList.add("sdfhs");
+        mAllList.add("fdyui");
+        mAllList.add("cfghj");
+        mAllList.add("refgh");
         return mAllList.toArray();
     }
 
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(mTitleView, new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
-                        ActionBar.LayoutParams.WRAP_CONTENT));
+                ActionBar.LayoutParams.WRAP_CONTENT));
 
     }
 
@@ -80,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     public Object[] searchItem(String name) {
-        ArrayList<String> mSearchList = new ArrayList<>();
+        List<String> mSearchList = new ArrayList<>();
         for (int i = 0; i < mAllList.size(); i++) {
             int index = mAllList.get(i).indexOf(name);
             // 存在匹配的数据
@@ -92,8 +90,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     public void updateLayout(Object[] obj) {
-        listView.setAdapter(new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_expandable_list_item_1, obj));
+        listView.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_expandable_list_item_1, obj));
     }
 
     @Override
@@ -102,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     // android4.0 SearchView去掉（修改）搜索框的背景 修改光标
-    @SuppressWarnings("deprecation")
     public void setSearchViewBackground(SearchView searchView) {
         try {
             Class<?> argClass = searchView.getClass();
